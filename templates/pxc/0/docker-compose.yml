@@ -19,6 +19,7 @@ pxc-server:
     io.rancher.container.hostname_override: container_name
     collectd_docker_app: ""
     collectd_docker_app_label: "pxc"
+    collectd_docker_task: ""
     collectd_docker_task_label: "${host_labels}"
   volumes_from:
     - 'pxc-data'
