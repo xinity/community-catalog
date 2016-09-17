@@ -15,7 +15,7 @@ pxc-server:
     MYSQL_USER: "${mysql_user}"
     MYSQL_PASSWORD: "${mysql_password}"
     COLLECTD_DOCKER_APP: "pxc"
-    COLLECTD_DOCKER_TASK: container_name
+    COLLECTD_DOCKER_TASK: $${hostname}
     COLLECTD_HOST: container_name    
   labels:
     io.rancher.container.hostname_override: container_name
