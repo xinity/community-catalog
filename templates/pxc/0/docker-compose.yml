@@ -17,8 +17,8 @@ pxc-server:
     COLLECTD_DOCKER_APP: "pxc"
   labels:
     io.rancher.container.hostname_override: container_name
-    io.rancher.container.collectd_docker_task: container_name
-    collectd_docker_task: container_name
+    io.rancher.container.collectd_docker_task: hostname
+    collectd_docker_task: hostname
   volumes_from:
     - 'pxc-data'
   entrypoint: bash -x /opt/rancher/start_pxc
