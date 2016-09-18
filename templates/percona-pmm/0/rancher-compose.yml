@@ -1,5 +1,14 @@
 .catalog:
   name: "Percona Monitoring Management"
-  version: 1.0.4-rancher1
-  description: |
-    Percona Monitoring Management 1.0.4 (experimental)
+  version: "1.0.4-rancher1"
+  description: "Percona Monitoring Management 1.0.4 (experimental)"
+  uuid: pmm-0
+  minimum_rancher_version: v0.51.0
+  questions:
+    - variable: public_port
+      description: "public port to access pmm-server"
+      label: "Public Port"
+      required: true
+      default: "80"
+      type: "int"
+pmm-server:
