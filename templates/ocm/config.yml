@@ -1,0 +1,5 @@
+name: "plam16 OpenCloud Monitor"
+description: |
+  Modular Monitoring system based on collectd/graphite
+version: 0.5-rancher1
+category: Monitoring

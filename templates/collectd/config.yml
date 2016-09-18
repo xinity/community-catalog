@@ -1,0 +1,5 @@
+name: "Palm16 Collectd agent"
+description: |
+  Custom collectd with pxc and docker support
+version: 1.0.0-rancher1
+category: Monitoring

@@ -4,3 +4,5 @@ pmm-server:
     - ${public_port}:80
   labels:
     io.rancher.container.hostname_override: container_name
+  environment:
+    COLLECTD_DOCKER_APP: "pmm-server"

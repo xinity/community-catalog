@@ -1,0 +1,30 @@
+grafana:
+  image: grafana:latest
+  environment:
+    COLLECTD_DOCKER_APP: "grafana"
+  labels:
+    io.rancher.container.hostname_override: container_name
+cabot:
+  image: rzarouali/ocm-monitor:latest
+  environment:
+    COLLECTD_DOCKER_APP: "cabot"
+  labels:
+    io.rancher.container.hostname_override: container_name
+graphite:
+  image: sitespeedio/graphite:latest
+  environment:
+    COLLECTD_DOCKER_APP: "graphite"
+  labels:
+    io.rancher.container.hostname_override: container_name
+redis:
+  image: redis:latest
+  environment:
+    COLLECTD_DOCKER_APP: "redis"
+  labels:
+    io.rancher.container.hostname_override: container_name
+postgresql:
+  image: rzarouali/ocm-postgres:latest
+  environment:
+    COLLECTD_DOCKER_APP: "postgresql"
+  labels:
+    io.rancher.container.hostname_override: container_name
