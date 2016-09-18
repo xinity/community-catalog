@@ -1,0 +1,5 @@
+name: "Percona Monitoring Management"
+description: |
+  Percona Monitoring Management tools (experimental)
+version: 1.0.4-rancher1
+category: Databases

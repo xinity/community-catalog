@@ -1,0 +1,5 @@
+.catalog:
+  name: "Percona Monitoring Management"
+  version: 1.0.4-rancher1
+  description: |
+    Percona Monitoring Management 1.0.4 (experimental)
