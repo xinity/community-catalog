@@ -1,6 +1,5 @@
 pmm-server:
   image: percona/pmm-server:latest
-  net: "container:pmm"
   ports:
     - ${public_port}:80
   labels:
