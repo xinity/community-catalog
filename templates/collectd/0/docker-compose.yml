@@ -1,7 +1,7 @@
 collectd-agent:
-  image: rzarouali/collectd-agent:latest
+  image: rzarouali/ocm-collectd:latest
   labels:
     io.rancher.container.hostname_override: container_name
   environment:
-    GRAPHITE_HOST: "yes"
-    COLLECTD_HOST: "yes"
+    GRAPHITE_HOST: ${graphite_host}
+    COLLECTD_INTERVAL: ${collectd_interval}
