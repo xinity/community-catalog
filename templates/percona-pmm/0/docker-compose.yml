@@ -2,6 +2,6 @@ pmm-server:
   image: percona/pmm-server:latest
   net: "container:pmm"
   ports:
-    - 80:80
+    - ${public_port}:80
   labels:
     io.rancher.container.hostname_override: container_name
