@@ -5,3 +5,4 @@ collectd-agent:
   environment:
     GRAPHITE_HOST: ${graphite_host}
     COLLECTD_INTERVAL: ${collectd_interval}
+  privileged: true
