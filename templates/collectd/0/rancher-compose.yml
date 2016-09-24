@@ -1,57 +1,31 @@
 .catalog:
-  name: "Percona XtraDB Cluster"
-  version: 5.6.28-rancher1
+  name: "Collectd agent"
+  version: 1.0.0-rancher1
   description: |
-    Percona XtraDB Cluster 5.6.28
+    Custom collectd with pxc and docker support
   questions:
-    - variable: "mysql_root_password"
+    - variable: "graphite_host"
       type: string
       required: true
-      label: "MySQL Root Password"
-      description: "Password given to the root mysql user"
-      default: "password"
-    - variable: "pxc_sst_password"
+      label: "Graphite host"
+      description: "Graphite host that will receive metrics"
+    - variable: "collectd_interval"
       type: string
       required: true
-      label: "PXC SST Password"
-      description: "Password given to the sst mysql user"   
-      default: "password"   
-    - variable: "mysql_database"
+      label: "Collectd interval"
+      description: "interval within collecd collects metrics"
+    - variable: "mysql_host"
       type: string
-      required: false
-      label: "MySQL Database Name"
-      description: "MySQL database to create"
+      required: true
+      label: "Mysql Host"
+      description: "Hostname of the mysql server"
     - variable: "mysql_user"
       type: string
-      required: false
-      description: "MySQL user for the created database"
-      label: "MySQL DB User"
+      required: true
+      label: "Mysql Username"
+      description: "Username used to connect to mysql daemon"
     - variable: "mysql_password"
       type: string
-      required: false
-      label: "MySQL DB Password"
-      description: "Password for the MySQL user of the created database"
-pxc:
-  scale: 3
-  health_check:
-    port: 8000
-    interval: 2000
-    unhealthy_threshold: 3
-    strategy: none
-    request_line: GET / HTTP/1.1
-    healthy_threshold: 2
-    response_timeout: 2000  
-  metadata:
-    mysqld: |
-      innodb_buffer_pool_size=512M
-      innodb_doublewrite=0
-      innodb_flush_log_at_trx_commit=0
-      innodb_file_per_table=1
-      innodb_log_file_size=128M
-      innodb_log_buffer_size=64M
-      innodb_support_xa=0
-      query_cache_size=0
-      query_cache_type=0
-      sync_binlog=0
-      max_connections=1000
-      wsrep_sst_auth=sstuser:${pxc_sst_password}
+      required: true
+      label: "Mysql Password"
+      description: "password used to connect to mysql daemon"
