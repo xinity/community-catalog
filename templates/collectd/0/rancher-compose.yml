@@ -14,3 +14,18 @@
       required: true
       label: "Collectd interval"
       description: "interval within collecd collects metrics"
+    - variable: "mysql_host"
+      type: string
+      required: true
+      label: "Mysql Host"
+      description: "Hostname of the mysql server"
+    - variable: "mysql_user"
+      type: string
+      required: true
+      label: "Mysql Username"
+      description: "Username used to connect to mysql daemon"
+    - variable: "mysql_password"
+      type: string
+      required: true
+      label: "Mysql Password"
+      description: "password used to connect to mysql daemon"
