@@ -49,6 +49,23 @@ influxdb:
     - GRAPHITE_DB=rancher
     - GRAPHITE_BINDING=:2003
 
+grapbite-db:
+  tty: true
+  image: sitespeedio/graphite:latest
+  command: cat
+  volumes:
+    - /opt/graphite/storage/whisper/
+
+graphite:
+  image: sitespeedio/graphite:latest
+  ports:
+    - 8181:80
+    - 2006:2003
+  labels:
+    io.rancher.sidekicks: graphite-db
+  volumes_from:
+    - graphite-db 
+
 graf-db:
     tty: true
     image: infinityworks/graf-db:08
