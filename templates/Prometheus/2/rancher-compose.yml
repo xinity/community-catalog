@@ -37,7 +37,7 @@ influxdb:
 graphite:
   scale: 1
   health_check:
-    port: 2O03
+    port: 2003
     interval: 5000
     unhealthy_threshold: 3
     request_line: ''
