@@ -60,7 +60,7 @@ graphite:
   image: sitespeedio/graphite:latest
   ports:
     - 8181:80
-    - 2006:2003
+    - 2003:2003
   labels:
     io.rancher.sidekicks: graphite-db
   volumes_from:
