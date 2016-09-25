@@ -49,7 +49,7 @@ influxdb:
     - GRAPHITE_DB=rancher
     - GRAPHITE_BINDING=:2003
 
-grapbite-db:
+graphite-db:
   tty: true
   image: sitespeedio/graphite:latest
   command: cat
