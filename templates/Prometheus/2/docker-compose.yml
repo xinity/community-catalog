@@ -8,6 +8,9 @@ ranch-eye:
   image: infinityworks/ranch-eye:03
   stdin_open: true
   net: "host"
+ environment:
+    COLLECTD_DOCKER_APP: "ranch-eye"
+
 
 node-exporter:
   labels:
@@ -15,6 +18,9 @@ node-exporter:
   tty: true
   image: prom/node-exporter:latest
   stdin_open: true
+ environment:
+    COLLECTD_DOCKER_APP: "node-exporter"
+
 
 prom-conf:
     tty: true
@@ -36,6 +42,9 @@ prometheus:
       - ranch-eye:ranch-eye
       - node-exporter:node-exporter
       - prometheus-rancher-exporter:prometheus-rancher-exporter
+ environment:
+    COLLECTD_DOCKER_APP: "prometheus"
+
 
 influxdb:
   image: tutum/influxdb:0.10
@@ -48,6 +57,8 @@ influxdb:
     - PRE_CREATE_DB=grafana;prometheus;rancher
     - GRAPHITE_DB=rancher
     - GRAPHITE_BINDING=:2003
+    - COLLECTD_DOCKER_APP=influxdb
+
 
 graphite-db:
   tty: true
@@ -65,6 +76,9 @@ graphite:
     io.rancher.sidekicks: graphite-db
   volumes_from:
     - graphite-db 
+ environment:
+    COLLECTD_DOCKER_APP: "graphite"
+
 
 graf-db:
     tty: true
@@ -85,6 +99,9 @@ grafana:
     links:
       - prometheus:prometheus
       - prometheus-rancher-exporter:prometheus-rancher-exporter
+ environment:
+    COLLECTD_DOCKER_APP: "grafana"
+
 
 prometheus-rancher-exporter:
     tty: true
@@ -92,3 +109,6 @@ prometheus-rancher-exporter:
       io.rancher.container.create_agent: true
       io.rancher.container.agent.role: environment
     image: infinityworks/prometheus-rancher-exporter:04
+ environment:
+    COLLECTD_DOCKER_APP: "rancher-exporter"
+
