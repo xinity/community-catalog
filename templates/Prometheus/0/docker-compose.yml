@@ -5,30 +5,32 @@ ranch-eye:
     io.rancher.scheduler.global: 'true'
     io.rancher.container.dns: true
   tty: true
-  image: rucknar/ranch-eye:01
+  image: infinityworks/ranch-eye:03
   stdin_open: true
   net: "host"
+  environment:
+    COLLECTD_DOCKER_APP: "ranch-eye"
+
 
 node-exporter:
-  ports:
-    - 9100:9100
   labels:
     io.rancher.scheduler.global: 'true'
-    io.rancher.container.dns: true
   tty: true
   image: prom/node-exporter:latest
   stdin_open: true
-  net: "host"
+  environment:
+    COLLECTD_DOCKER_APP: "node-exporter"
+
 
 prom-conf:
     tty: true
-    image: rucknar/prom-conf:08
+    image: infinityworks/prom-conf:14
     volumes:
       - /etc/prom-conf/
 
 prometheus:
     tty: true
-    image: prom/prometheus:0.17.0
+    image: prom/prometheus:v1.0.2
     command: -alertmanager.url=http://alertmanager:9093 -config.file=/etc/prom-conf/prometheus.yml -storage.local.path=/prometheus -web.console.libraries=/etc/prometheus/console_libraries -web.console.templates=/etc/prometheus/consoles
     ports:
       - 9090:9090
@@ -39,7 +41,10 @@ prometheus:
     links:
       - ranch-eye:ranch-eye
       - node-exporter:node-exporter
-      - rancher-api-integration:rancher-api-integration
+      - prometheus-rancher-exporter:prometheus-rancher-exporter
+    environment:
+      COLLECTD_DOCKER_APP: "prometheus"
+
 
 influxdb:
   image: tutum/influxdb:0.10
@@ -52,17 +57,39 @@ influxdb:
     - PRE_CREATE_DB=grafana;prometheus;rancher
     - GRAPHITE_DB=rancher
     - GRAPHITE_BINDING=:2003
+    - COLLECTD_DOCKER_APP=influxdb
+
+
+graphite-db:
+  tty: true
+  image: sitespeedio/graphite:latest
+  command: cat
+  volumes:
+    - /opt/graphite/storage/whisper/
+
+graphite:
+  image: sitespeedio/graphite:latest
+  ports:
+    - 8181:80
+    - 2003:2003
+  labels:
+    io.rancher.sidekicks: graphite-db
+  volumes_from:
+    - graphite-db 
+  environment:
+    COLLECTD_DOCKER_APP: "graphite"
+
 
 graf-db:
     tty: true
-    image: rucknar/graf-db:02
+    image: infinityworks/graf-db:08
     command: cat
     volumes:
       - /var/lib/grafana/
 
 grafana:
     tty: true
-    image: grafana/grafana:2.6.0
+    image: grafana/grafana:3.0.1
     ports:
       - 3000:3000
     labels:
@@ -71,13 +98,17 @@ grafana:
        - graf-db
     links:
       - prometheus:prometheus
-      - rancher-api-integration:rancher-api-integration
+      - prometheus-rancher-exporter:prometheus-rancher-exporter
+    environment:
+       COLLECTD_DOCKER_APP: "grafana"
 
-rancher-api-integration:
+
+prometheus-rancher-exporter:
     tty: true
     labels:
       io.rancher.container.create_agent: true
       io.rancher.container.agent.role: environment
-    expose:
-      - 9010:9010
-    image: rucknar/prometheus-rancher-exporter:01
+    image: infinityworks/prometheus-rancher-exporter:04
+    environment:
+       COLLECTD_DOCKER_APP: "rancher-exporter"
+
