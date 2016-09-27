@@ -12,54 +12,6 @@ ranch-eye:
     COLLECTD_DOCKER_APP: "ranch-eye"
 
 
-node-exporter:
-  labels:
-    io.rancher.scheduler.global: 'true'
-  tty: true
-  image: prom/node-exporter:latest
-  stdin_open: true
-  environment:
-    COLLECTD_DOCKER_APP: "node-exporter"
-
-
-prom-conf:
-    tty: true
-    image: infinityworks/prom-conf:14
-    volumes:
-      - /etc/prom-conf/
-
-prometheus:
-    tty: true
-    image: prom/prometheus:v1.0.2
-    command: -alertmanager.url=http://alertmanager:9093 -config.file=/etc/prom-conf/prometheus.yml -storage.local.path=/prometheus -web.console.libraries=/etc/prometheus/console_libraries -web.console.templates=/etc/prometheus/consoles
-    ports:
-      - 9090:9090
-    labels:
-      io.rancher.sidekicks: prom-conf
-    volumes_from:
-       - prom-conf
-    links:
-      - ranch-eye:ranch-eye
-      - node-exporter:node-exporter
-      - prometheus-rancher-exporter:prometheus-rancher-exporter
-    environment:
-      COLLECTD_DOCKER_APP: "prometheus"
-
-
-influxdb:
-  image: tutum/influxdb:0.10
-  ports:
-    - 8083:8083
-    - 8086:8086
-    - 8090:8090
-    - 2003:2003
-  environment:
-    - PRE_CREATE_DB=grafana;prometheus;rancher
-    - GRAPHITE_DB=rancher
-    - GRAPHITE_BINDING=:2003
-    - COLLECTD_DOCKER_APP=influxdb
-
-
 graphite-db:
   tty: true
   image: sitespeedio/graphite:latest
@@ -97,7 +49,6 @@ grafana:
     volumes_from:
        - graf-db
     links:
-      - prometheus:prometheus
       - prometheus-rancher-exporter:prometheus-rancher-exporter
     environment:
        COLLECTD_DOCKER_APP: "grafana"
