@@ -32,28 +32,6 @@ graphite:
     COLLECTD_DOCKER_APP: "graphite"
 
 
-graf-db:
-    tty: true
-    image: infinityworks/graf-db:08
-    command: cat
-    volumes:
-      - /var/lib/grafana/
-
-grafana:
-    tty: true
-    image: grafana/grafana:3.0.1
-    ports:
-      - 3000:3000
-    labels:
-      io.rancher.sidekicks: graf-db
-    volumes_from:
-       - graf-db
-    links:
-      - prometheus-rancher-exporter:prometheus-rancher-exporter
-    environment:
-       COLLECTD_DOCKER_APP: "grafana"
-
-
 prometheus-rancher-exporter:
     tty: true
     labels:
@@ -63,3 +41,14 @@ prometheus-rancher-exporter:
     environment:
        COLLECTD_DOCKER_APP: "rancher-exporter"
 
+ocm-pmm-server:
+    tty: true
+    labels:
+      io.rancher.container.create_agent: true
+      io.rancher.container.agent.role: environment
+    image: rzarouali/ocm-pmm-server:latest
+    links:
+      - ranch-eye:ranch-eye
+      - prometheus-rancher-exporter:prometheus-rancher-exporter
+    environment:
+       COLLECTD_DOCKER_APP: "ocm-pmm-server"
