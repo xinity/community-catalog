@@ -52,3 +52,5 @@ ocm-pmm-server:
       - prometheus-rancher-exporter:prometheus-rancher-exporter
     environment:
        COLLECTD_DOCKER_APP: "ocm-pmm-server"
+    ports:
+      - 80:80
