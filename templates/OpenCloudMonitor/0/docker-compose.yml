@@ -4,6 +4,7 @@ ranch-eye:
   labels:
     io.rancher.scheduler.global: 'true'
     io.rancher.container.dns: true
+    io.rancher.container.hostname_override: container_name
   tty: true
   image: infinityworks/ranch-eye:03
   stdin_open: true
@@ -26,6 +27,7 @@ graphite:
     - 2003:2003
   labels:
     io.rancher.sidekicks: graphite-db
+    io.rancher.container.hostname_override: container_name
   volumes_from:
     - graphite-db 
   environment:
@@ -37,6 +39,7 @@ prometheus-rancher-exporter:
     labels:
       io.rancher.container.create_agent: true
       io.rancher.container.agent.role: environment
+      io.rancher.container.hostname_override: container_name
     image: infinityworks/prometheus-rancher-exporter:04
     environment:
        COLLECTD_DOCKER_APP: "rancher-exporter"
@@ -46,6 +49,7 @@ ocm-pmm-server:
     labels:
       io.rancher.container.create_agent: true
       io.rancher.container.agent.role: environment
+      io.rancher.container.hostname_override: container_name
     image: rzarouali/ocm-pmm-server:latest
     links:
       - ranch-eye:ranch-eye
