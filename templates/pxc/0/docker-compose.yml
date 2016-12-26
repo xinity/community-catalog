@@ -5,6 +5,7 @@ pxc-clustercheck:
     io.rancher.container.hostname_override: container_name
   volumes_from:
     - 'pxc-data'    
+
 pxc-server:
   image: flowman/percona-xtradb-cluster:5.6.28-1
   net: "container:pxc"
@@ -20,6 +21,7 @@ pxc-server:
   volumes_from:
     - 'pxc-data'
   entrypoint: bash -x /opt/rancher/start_pxc
+
 pxc-data:
   image: flowman/percona-xtradb-cluster:5.6.28-1
   net: none
@@ -31,7 +33,8 @@ pxc-data:
     - /docker-entrypoint-initdb.d
   command: /bin/true
   labels:
-    io.rancher.container.start_once: true    
+    io.rancher.container.start_once: true   
+     
 pxc:
   image: flowman/percona-xtradb-cluster-confd:v0.2.0
   labels:
